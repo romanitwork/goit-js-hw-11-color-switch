@@ -20,20 +20,25 @@ const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-startButton.addEventListener("click", start)
-stopButton.addEventListener("click", stop)
+
 function start (e) {
   stopButton.disabled = false;
-  startButton.addEventListener("click", start)
   interval = setInterval(() => {
     body.style.backgroundColor = colors[randomIntegerFromInterval(min, max)];
   }, 1000);
   startButton.disabled = true;
   stopButton.disabled = false;
+  startButton.removeEventListener("click", start)
+  stopButton.addEventListener("click", stop)
 };
 
 function stop(e) {
   clearInterval(interval);
   startButton.disabled = false;
   stopButton.disabled = true;
+  stopButton.removeEventListener("click", stop)
+  startButton.addEventListener("click", start)
 };
+
+startButton.addEventListener("click", start)
+stopButton.addEventListener("click", stop)
